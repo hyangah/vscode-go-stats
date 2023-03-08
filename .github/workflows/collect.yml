@@ -1,0 +1,42 @@
+name: Collect
+
+on:
+  schedule:
+    - cron: "0 15 * * *"  # 15:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run_vsce_show:
+    name: vscode marketplace query
+    permissions:
+      contents: write # for git to git push
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+         node-version: '18'
+         cache: 'npm'
+
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+         go-version: '1.20'
+         check-latest: true
+         cache: true
+
+      - name: Install dependencies
+        run: npm install -g @vscode/vsce@2.18.0
+
+      - name: Run vsce show
+        run: |
+          go run ./tools/run_vsce_show >> data/vscode_marketplace.csv
+          cat data/vscode_marketplace.csv
