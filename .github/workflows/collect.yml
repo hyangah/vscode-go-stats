@@ -38,4 +38,14 @@ jobs:
         run: |
           npm ci
           go run ./tools/run_vsce_show >> data/vscode_marketplace.csv
-          cat data/vscode_marketplace.csv
+          tail -n 1 data/vscode_marketplace.csv
+
+      - name: Commit
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add ./data/*.csv
+          git commit -m "daily update"
+          git remote -v
+          git push
+          git log -1
