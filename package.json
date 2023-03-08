@@ -1,0 +1,13 @@
+{
+  "name": "vscode-go-stats",
+  "version": "0.0.1",
+  "description": "vscode-go stats",
+  "repository": {
+    "type": "git",
+    "url": "github.com/hyangah/vscode-go-stats"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@vscode/vsce": "^2.18.0"
+  }
+}
